@@ -1,0 +1,28 @@
+detecting trees: https://app.roboflow.com/acheron/minecraft-tree-detection-qrp0d-lhimu/1
+detecting ores/lava: https://app.roboflow.com/project/minecraft-detections-1ecpz/1
+
+
+
+
+Example usage (assuming google colab, but i think you should be able to put it all together in any linux environment):
+
+!pip install inference
+
+from google.colab import userdata
+from inference import get_model
+ROBOFLOW_API_KEY = userdata.get('ROBOFLOW_API_KEY')
+MODEL_ID = "minecraft-tree-detection-qrp0d-lhimu/1" # model id of the correct model
+model = get_model(MODEL_ID, ROBOFLOW_API_KEY)
+
+import cv2
+IMAGE_PATH = "/content/test_image.jpg"
+image = cv2.imread(IMAGE_PATH)
+
+results = model.infer(image, confidence=0.4)
+
+import supervision as sv
+detections = sv.Detections.from_inference(results[0])
+annotated_image = image.copy()
+annotated_image = sv.BoxAnnotator().annotate(scene=annotated_image, detections=detections)
+annotated_image = sv.LabelAnnotator().annotate(scene=annotated_image, detections=detections)
+sv.plot_image(annotated_image)
