@@ -1,0 +1,171 @@
+Testing of different hyperparameters from https://github.com/adityavinodk/wood_chopper_minecraft
+
+-------------------------------------------------
+Default
+-------------------------------------------------
+weightsB.npy
+Default parameters
+epsilon=0.8, alpha=0.1, gamma=0.9
+training 
+30 missions at 0.33 minutes (20sec)
+logs cut: 10
+
+testing
+5 missions at 0.5 minutes
+logs cut: 2
+1 final reward: -360
+2 final reward: -120*
+3 final reward: -240
+4 final reward: -20*
+5 final reward: -280
+
+notes:
+* means it cut a log in testing
+-------------------------------------------------
+Lower Exploration Rate
+-------------------------------------------------
+weightsC.npy
+lower epsilon parameter:
+epsilon=0.4, alpha=0.1, gamma=0.9
+
+training 
+30 missions at 0.33 minutes (20sec)
+logs cut: 8
+
+
+testing
+5 missions at 0.5 minutes
+logs cut: 2
+1 final reward: 0
+2 final reward: 980*
+3 final reward: 0
+4 final reward: 420*
+5 final reward: 0
+
+notes:
+Focuses on exploitation of learned strategies, using the Q-network more often
+does not move as much, and repeats movement/policy often
+could experiment with epsilon decay
+
+-------------------------------------------------
+Higher Learning Rate
+-------------------------------------------------
+weightsD.npy
+higher alpha parameter:
+epsilon=0.8, alpha=0.4, gamma=0.9
+
+training 
+30 missions at 0.33 minutes (20sec)
+logs cut: 20
+
+
+testing
+5 missions at 0.5 minutes (30sec)
+logs cut: 4
+1 final reward: -720*
+2 final reward: -620*
+3 final reward: -620*
+4 final reward: -720
+5 final reward: -680*
+
+notes:
+Makes learning faster but can lead to instability or overshooting optimal Q-values
+Able to cut trees in succession
+Learned that moving left to right to scan for trees provides a higher reward
+High amount of logs cut
+Tends to move to the left and cuts trees on the way, more training required
+
+-------------------------------------------------
+Lower Discount Factor
+-------------------------------------------------
+weightsE.npy
+lower gamma parameter:
+epsilon=0.8, alpha=0.1, gamma=0.5
+
+training 
+30 missions at 0.33 minutes (20sec)
+logs cut: 22
+
+
+testing
+5 missions at 0.5 minutes (30sec)
+logs cut: 5
+1 final reward: 1140*
+2 final reward: 1220*
+3 final reward: 1480*
+4 final reward: 0
+5 final reward: 1380.0*
+
+notes:
+Focuses more on immediate rewards, useful for short-term tasks.
+cuts a lot of wood
+environment space is small, short, and finite which is good for a lower discount factor
+
+-------------------------------------------------
+Hybrid of best results
+-------------------------------------------------
+weightsF.npy
+lower gamma parameter:
+epsilon=0.7, alpha=0.3, gamma=0.5
+
+training 
+30 missions at 0.33 minutes (20sec)
+logs cut: 32
+
+
+testing
+5 missions at 0.5 minutes (30sec)
+logs cut: 3
+1 final reward: -680*
+2 final reward: -680*
+3 final reward: -780
+4 final reward: -780
+5 final reward: -680*
+
+notes:
+Hybrid of the best performing agents, using a higher learning rate, a lower discount rate, and a slightly lower exploration rate
+
+Potentially use this agent with a decaying epsilon and a smaller learning rate to stabilize policy and produce a reliable amount of logs cut
+
+learned to cut logs quickly, and can cut logs repeatedly
+scans left to right and then moves into the center in an L pattern of movement
+
+-------------------------------------------------
+All parameters set to 0.0
+-------------------------------------------------
+weightsZero.npy
+lower gamma parameter:
+epsilon=0.0, alpha=0.0, gamma=0.0
+
+training 
+30 missions at 0.33 minutes (20sec)
+logs cut: 8
+
+notes:
+does nothing for some missions
+If attack was not hardcoded to be all the time, then no logs would be cut
+
+-------------------------------------------------
+All parameters set to 1.0
+-------------------------------------------------
+weightsOne.npy
+lower gamma parameter:
+epsilon=0.0, alpha=0.0, gamma=0.0
+
+training 
+30 missions at 0.33 minutes (20sec)
+logs cut: 20
+
+-------------------------------------------------
+All parameters set to 0.4
+-------------------------------------------------
+weights04.npy
+lower gamma parameter:
+epsilon=0.4, alpha=0.4, gamma=0.4
+
+training 
+30 missions at 0.33 minutes (20sec)
+logs cut: 19
+
+notes: 
+managed to get all logs cut in one mission
